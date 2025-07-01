@@ -58,6 +58,12 @@ my @keysin = keys %catagory;
 
 }
 
+	if ($answer eq "exit") {
+
+		exit(0);
+	}
+
+
 
 }
 
@@ -124,57 +130,88 @@ sub Valid {
 # add what feeling needs to feel valid.
 # add what experience needs to feel valid.
 
-my @questions = ("Todays Effort", "Inner Truth", "Shadow Check", "Validation", "Idea", "Emotion", "Experience");
-my @prompt = ("Did I truly do my best?", "What is still true about me?", "Where did i fall short?", "Am I Still valid even despite that?", "What idea needs validation?", "What emotion needs validation?", "What experience needs validation?");
-
-
-my @answers = ();
-my @setprompt = ();
-my @aspect = ();
 
 
 
-foreach my $item (@questions) {
+my %boxes = (
 
-		print "$item\n";
+	"1" => {
+		aspect => "Todays Effort",
+		prompt => "Did I truly do my best?"
+	},
 
-		my $datapoint = shift(@prompt);
+	"2" => {
+		aspect => "Inner Truth",
+		prompt => "What is still true about me?"
+	},
 
-		print "$datapoint\n";
+	"3" => {
+		aspect => "Shadow Check",
+		prompt => "Where did i fall short?"
+	},
 
-        my $answer = "";
-        print "enter your # answer--->: ";
-        chomp( $answer = <STDIN> );
+	"4" => {
+		aspect => "Validation",
+		prompt => "Am i still valid even despite this?"
 
-		push @aspect, $item;
+	}, 
 
-		push @setprompt, $datapoint;
+	"5" => {
+		aspect => "Idea Validation",
+		prompt => "What idea needs validation?"
+	},
 
-		push @answers, $answer;
+	"6" => {
+		aspect => "Emotion Validation",
+		prompt => "What emotion needs validation?"
+	},
 
-		#print "$answer\n";
+	"7" => {
+		aspect => "Experience Validation",
+		prompt => "What experience needs validation?"
+	}
+
+
+
+);
+
+
+
+
+
+foreach my $key (sort keys %boxes) {
+    my $aspect = $boxes{$key}->{aspect};
+    my $prompt = $boxes{$key}->{prompt};
+
+    print "$aspect\n$prompt\n";
+    my $answer = "";
+    print "enter your # answer--->: ";
+    chomp( $answer = <STDIN> );
+
+	$boxes{$key}->{answer} = $answer;
+
+
 
 
 }
 
 
+foreach my $key2 (sort keys %boxes) {
+
+	my $a = $boxes{$key2}->{aspect};
+	 
+	my $b = $boxes{$key2}->{prompt};
+
+	my $c = $boxes{$key2}->{answer};
 
 
-foreach my $data (@aspect) {
+	&upload($a, $b, $c);
 
-	my $a = shift(@setprompt);
-	my $b = shift(@answers);
-
-
-	&upload($data, $a, $b);
-
-	print "Data: $data\tPrompt: $a\tAnswer: $b\n";
+	# print "$a\t$b\t$c\n";
 
 
 
 }
-
-
 
 
 }
